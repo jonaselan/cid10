@@ -21,18 +21,18 @@ class SeedController < ApplicationController
                   if group['categoria'].kind_of?(Array)
                     group['categoria'].each do |category|
                       cat = Category.create(name: category['nome'], name50: category['nome50'],
-                        codcat: category['codcat'], group: gro)
+                        codcat: category['codcat'], ehsubcat: category['ehsubcat'], group: gro)
                         if category['subcategoria']
                           category['subcategoria'].each do |subcategory|
                             Subcategory.create(name: subcategory['nome'], name50: subcategory['nome50'],
-                              codsubcat: subcategory['codsubcat'], category: cat)
+                              codsubcat: subcategory['codsubcat'], restriction: restriction(subcategory['restricoes']), category: cat)
                             end
                           end
                         end
                   else
                     # caso tenha somente uma categoria
-                    cat = Category.create(name: group['categoria']['nome'].first, name50: group['categoria']['nome50'].first,
-                      codcat: group['categoria']['codcat'].first, group: gro)
+                      Category.create(name: group['categoria']['nome'].first, name50: group['categoria']['nome50'].first,
+                      codcat: group['categoria']['codcat'].first, ehsubcat: group['categoria']['ehsubcat'].first, group: gro)
                   end
                 end
             end
@@ -56,5 +56,9 @@ class SeedController < ApplicationController
 
   def sucess_message
     render json: { menssagem: 'Tabelas preenchidas, a partir do XML Cid10.xml concluída' }
+  end
+
+  def restriction()
+    #TODO: 
   end
 end

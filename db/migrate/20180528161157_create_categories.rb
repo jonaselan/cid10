@@ -4,6 +4,7 @@ class CreateCategories < ActiveRecord::Migration[5.1]
       t.string :name
       t.string :name50
       t.string :codcat
+      t.string :ehsubcat
       t.references :group, foreign_key: true
 
       t.timestamps
