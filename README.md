@@ -1,24 +1,43 @@
-# README
+# CID10
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+API para recuperar dados da tabela CID10
 
-Things you may want to cover:
+## Ferramentas
 
-* Ruby version
+* [Ruby](https://www.ruby-lang.org) (2.3.0 used)
+* [Rails](http://rubyonrails.org/)
+* [Postgresql](https://www.postgresql.org/)
 
-* System dependencies
 
-* Configuration
+## Configurar
 
-* Database creation
+```
+# baixar imagens
+docker-compose build
 
-* Database initialization
+# iniciar aplicação
+docker-compose up web db
 
-* How to run the test suite
+# criar banco
+docker-compose run web rake db:create
 
-* Services (job queues, cache servers, search engines, etc.)
+# entrar no container
+docker-compose exec web bash
 
-* Deployment instructions
+# baixar dependências
+bundle
 
-* ...
+# executar migrações
+rails db:migration
+
+# executar seeds
+rails db:seed
+```
+
+## Routes
+
+**GET**  popular o banco baseado no xml
+
+```
+/generate
+```
