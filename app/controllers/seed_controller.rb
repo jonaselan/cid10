@@ -3,7 +3,7 @@ class SeedController < ApplicationController
     xml = Hash.from_xml(File.open("CID10.xml", "r:UTF-8"))
     return fail_message if all_datatable_empty?
 
-    # só escuta todas as operações se tudo der certo
+    # rollback nas operações se houver algum erro
     ActiveRecord::Base.transaction do
       cid10 = Cid10.create(version: xml['cid10']['versao'])
       xml['cid10']['capitulo'].each do |chapter|
@@ -21,19 +21,22 @@ class SeedController < ApplicationController
                   if group['categoria'].kind_of?(Array)
                     group['categoria'].each do |category|
                       cat = Category.create(name: category['nome'], name50: category['nome50'], restriction_id: restriction(category['restricoes']),
-                                            codcat: category['codcat'], ehsubcat: category['ehsubcat'], group: gro)
+                                            codcat: category['codcat'], ehsubcat: category['ehsubcat'],
+                                            classification_id: classification(category['duplaclassificacao']), group: gro)
                         if category['subcategoria']
                           category['subcategoria'].each do |subcategory|
                             Subcategory.create(name: subcategory['nome'], name50: subcategory['nome50'], codsubcat: subcategory['codsubcat'],
-                                               restriction_id: restriction(subcategory['restricoes']), category: cat)
+                                               restriction_id: restriction(subcategory['restricoes']),
+                                               classification_id: classification(subcategory['duplaclassificacao']), category: cat)
                             end
                           end
                         end
                   else
                     # caso tenha somente uma categoria
-                      Category.create(name: group['categoria']['nome'].first, name50: group['categoria']['nome50'].first,
-                                      codcat: group['categoria']['codcat'].first, restriction_id: restriction(group['categoria']['restricoes']),
-                                      ehsubcat: group['categoria']['ehsubcat'].first, group: gro)
+                      Category.create(name: group['categoria']['nome'], name50: group['categoria']['nome50'],
+                                      codcat: group['categoria']['codcat'], restriction_id: restriction(group['categoria']['restricoes']),
+                                      ehsubcat: group['categoria']['ehsubcat'], group: gro,
+                                      classification_id: classification(group['categoria']['duplaclassificacao']))
                   end
                 end
             end
@@ -52,21 +55,37 @@ class SeedController < ApplicationController
   end
 
   def fail_message
-    render json: { menssagem: 'Certifique-se que todas as suas tabelas estejam vazias' }
+    render json: { mensagem: 'Certifique-se que todas as suas tabelas estejam vazias' }
   end
 
   def sucess_message
-    render json: { menssagem: 'Tabelas preenchidas, a partir do XML Cid10.xml concluída' }
+    render json: { mensagem: 'Tabelas preenchidas, a partir do XML Cid10.xml concluída' }
   end
 
   def restriction(type)
     return nil unless type
+
     if type['causaobito'] === "nao"
-        return 1
+        return Restriction.first.id
     elsif type['sexo'] === "apenas_homens"
-        return 2
+        return Restriction.second.id
     elsif type['sexo'] === "apenas_mulheres"
-        return 3
+        return Restriction.third.id
     end
   end
+
+  def classification(type)
+    return nil unless type
+
+    unless type['referencia']
+      if type['tipo'] === "cruz"
+        return Classification.first.id
+      elsif type['tipo'] === "asterisco"
+        return Classification.second.id
+      end
+    else
+      return Classification.create(estate: type['tipo'], reference: type['referencia'].first).id
+    end
+  end
+
 end

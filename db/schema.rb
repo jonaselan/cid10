@@ -22,8 +22,10 @@ ActiveRecord::Schema.define(version: 20180529003147) do
     t.string "ehsubcat"
     t.bigint "group_id"
     t.bigint "restriction_id"
+    t.bigint "classification_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["classification_id"], name: "index_categories_on_classification_id"
     t.index ["group_id"], name: "index_categories_on_group_id"
     t.index ["restriction_id"], name: "index_categories_on_restriction_id"
   end
@@ -49,9 +51,8 @@ ActiveRecord::Schema.define(version: 20180529003147) do
   end
 
   create_table "classifications", force: :cascade do |t|
-    t.string "type"
-    t.string "codrefer"
-    t.string "name"
+    t.string "estate"
+    t.string "reference"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -69,7 +70,7 @@ ActiveRecord::Schema.define(version: 20180529003147) do
   end
 
   create_table "restrictions", force: :cascade do |t|
-    t.string "category_type"
+    t.string "estate"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -89,6 +90,7 @@ ActiveRecord::Schema.define(version: 20180529003147) do
     t.index ["restriction_id"], name: "index_subcategories_on_restriction_id"
   end
 
+  add_foreign_key "categories", "classifications"
   add_foreign_key "categories", "groups"
   add_foreign_key "categories", "restrictions"
   add_foreign_key "chapters", "cid10s"
