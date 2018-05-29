@@ -5,9 +5,9 @@ API para recuperar dados da tabela CID10
 ## Ferramentas
 
 * [Ruby](https://www.ruby-lang.org) (2.3.0 used)
-* [Rails](http://rubyonrails.org/)
-* [Postgresql](https://www.postgresql.org/)
-
+* [Rails](http://rubyonrails.org/) (5.1.6 used)
+* [Postgresql](https://www.postgresql.org/) (10.3 used)
+* [Docker](https://docs.docker.com/install/) and [Docker-compose](https://docs.docker.com/compose/install/) (optional)
 
 ## Configurar
 
