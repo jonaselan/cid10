@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get 'generate' => 'seed#index'
 
-  # namespace :v1 do
-  # end
+  namespace :v1 do
+    resources :diseases, only: [:index, :show]
+  end
 end
