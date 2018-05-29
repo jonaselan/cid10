@@ -1,4 +1,4 @@
 class Chapter < ApplicationRecord
   belongs_to :cid10
-  has_many :group
+  has_many :groups
 end

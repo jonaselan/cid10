@@ -1,4 +1,4 @@
 class Category < ApplicationRecord
   belongs_to :group
-  has_many :subcategory
+  has_many :subcategories
 end

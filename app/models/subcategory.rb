@@ -1,5 +1,5 @@
 class Subcategory < ApplicationRecord
   belongs_to :category
-  has_many :restricion
-  has_many :classification
+  has_many :restrictions
+  has_many :classifications
 end

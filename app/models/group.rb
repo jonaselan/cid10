@@ -1,4 +1,4 @@
 class Group < ApplicationRecord
   belongs_to :chapter
-  has_many :category
+  has_many :categories
 end
