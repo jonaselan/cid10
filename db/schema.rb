@@ -10,9 +10,87 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20180529003147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.string "name50"
+    t.string "codcat"
+    t.string "ehsubcat"
+    t.bigint "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_categories_on_group_id"
+  end
+
+  create_table "chapters", force: :cascade do |t|
+    t.string "name"
+    t.string "name50"
+    t.string "numcap"
+    t.string "codcap"
+    t.string "roman"
+    t.string "initial"
+    t.string "final"
+    t.bigint "cid10_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cid10_id"], name: "index_chapters_on_cid10_id"
+  end
+
+  create_table "cid10s", force: :cascade do |t|
+    t.string "version"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "classifications", force: :cascade do |t|
+    t.string "type"
+    t.string "codrefer"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.string "name50"
+    t.string "codgroup"
+    t.string "initial"
+    t.string "final"
+    t.bigint "chapter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chapter_id"], name: "index_groups_on_chapter_id"
+  end
+
+  create_table "restrictions", force: :cascade do |t|
+    t.string "category"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subcategories", force: :cascade do |t|
+    t.string "name"
+    t.string "name50"
+    t.string "codsubcat"
+    t.bigint "category_id"
+    t.bigint "restriction_id"
+    t.bigint "classification_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_subcategories_on_category_id"
+    t.index ["classification_id"], name: "index_subcategories_on_classification_id"
+    t.index ["restriction_id"], name: "index_subcategories_on_restriction_id"
+  end
+
+  add_foreign_key "categories", "groups"
+  add_foreign_key "chapters", "cid10s"
+  add_foreign_key "groups", "chapters"
+  add_foreign_key "subcategories", "categories"
+  add_foreign_key "subcategories", "classifications"
+  add_foreign_key "subcategories", "restrictions"
 end

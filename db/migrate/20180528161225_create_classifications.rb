@@ -1,6 +1,6 @@
-class CreateDoubleClassifications < ActiveRecord::Migration[5.1]
+class CreateClassifications < ActiveRecord::Migration[5.1]
   def change
-    create_table :double_classifications do |t|
+    create_table :classifications do |t|
       t.string :type
       t.string :codrefer
       t.string :name
