@@ -7,11 +7,13 @@ class V1::DiseasesController < ApplicationController
     search if params[:q]
 
     return render_not_found if @diseases.empty?
+<<<<<<< HEAD
     render json: @diseases.to_json(except: [:created_at, :updated_at])
+=======
+>>>>>>> Add lib jbuilder
   end
 
   def show
-    render json: @disease.as_json(include: :group)
   end
 
     private
