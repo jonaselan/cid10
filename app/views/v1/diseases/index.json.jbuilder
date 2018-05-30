@@ -5,11 +5,21 @@ json.diseases @diseases do |disease|
   json.ehsubcat  disease.ehsubcat
   json.chapter   disease.group.chapter.name
   json.subcategories disease.subcategories do |subcategory|
-    json.name               subcategory.id
-    json.name50             subcategory.name50
-    json.codsubcat          subcategory.codsubcat
-    json.restriction_id     subcategory.restriction_id
-    json.classification_id  subcategory.classification_id
+    json.name            subcategory.id
+    json.name50          subcategory.name50
+    json.codsubcat       subcategory.codsubcat
+    if subcategory.restriction
+      json.restriction  do
+        json.type         subcategory.restriction.estate
+        json.description  subcategory.restriction.description
+      end
+    end
+    if subcategory.classification
+      json.classification  do
+        json.type       subcategory.classification.estate
+        json.reference  subcategory.classification.reference
+      end
+    end
   end
   json.group do
     json.name      disease.group.id

@@ -1,4 +1,4 @@
 class Classification < ApplicationRecord
-  has_many :subcategory, optional: true
-  has_many :category, optional: true
+  has_many :subcategories
+  has_many :categories
 end
