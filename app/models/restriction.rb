@@ -1,4 +1,4 @@
 class Restriction < ApplicationRecord
-  belongs_to :subcategory, optional: true
-  belongs_to :category, optional: true
+  has_many :subcategory, optional: true
+  has_many :category, optional: true
 end
