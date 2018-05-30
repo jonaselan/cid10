@@ -4,7 +4,6 @@ class Category < ApplicationRecord
   has_many :restrictions
   has_many :classifications
 
-  def self.search_by(term)
-    Category.where(name: term)
-  end
+  scope :search_by, -> (q) { where("name LIKE '%#{q}%' or name50 LIKE '%#{q}%'") }
+
 end

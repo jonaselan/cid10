@@ -2,9 +2,11 @@ class V1::DiseasesController < ApplicationController
   before_action :get_disease, only: [:show]
 
   def index
-    @diseases = Category.limit 10
-    # @diseases = search if params[:q]
-    # @diseases = @diseases.as_json(include: :group)
+    @diseases = Category.all
+    @diseases = params[:page] && params[:per_page]? paginate : @diseases.limit(10)
+    search if params[:q]
+
+    return render_not_found if @diseases.empty?
     render json: @diseases
   end
 
@@ -19,8 +21,10 @@ class V1::DiseasesController < ApplicationController
     end
 
     def search
-      @diseases.search_by params[:q].delete(" \t\r\n")
-      # return render_not_found if @diseases.empty?
+      @diseases = @diseases.search_by params[:q].delete(" \t\r\n")
     end
 
+    def paginate
+      @diseases.limit(params[:page]).offset(params[:per_page])
+    end
 end
