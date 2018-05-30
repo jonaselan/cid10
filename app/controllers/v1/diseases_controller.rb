@@ -2,7 +2,7 @@ class V1::DiseasesController < ApplicationController
   before_action :get_disease, only: [:show]
 
   def index
-    @diseases = Category.all
+    @diseases = Category.includes(:subcategories).all
     @diseases = params[:page] && params[:per_page]? paginate : @diseases.limit(10)
     search if params[:q]
 
