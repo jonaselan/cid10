@@ -2,8 +2,8 @@ class ApplicationController < ActionController::API
 
   def render_not_found
     render json: {
-      código: 404,
-      mensagem: 'Nada encontrado!'
+      code: 404,
+      message: 'Nada encontrado!'
     }, status: :not_found
   end
 

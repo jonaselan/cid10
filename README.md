@@ -34,10 +34,32 @@ rails db:migration
 rails db:seed
 ```
 
-## Routes
+## Rotas
 
-**GET**  popular o banco baseado no xml
+Os filtros estabelecidos aqui podem ser enviados normalmente como parametros explicitos durante as chamadas da API.
+
+**GET**  Popular o banco baseado no xml
 
 ```
 /generate
+```
+
+### Doenças
+
+**GET**  Listar doenças
+
+- filtros
+  - pesquisar por nome: `q`
+  - paginação: `page` e `per_page`
+
+
+```
+  /v1/diseases
+```
+
+
+**GET**  Mostrar uma doença específica
+
+```
+  /v1/diseases{id}
 ```

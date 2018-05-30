@@ -55,11 +55,11 @@ class SeedController < ApplicationController
   end
 
   def fail_message
-    render json: { mensagem: 'Certifique-se que todas as suas tabelas estejam vazias' }
+    render json: { message: 'Make sure all your tables are empty' }
   end
 
   def sucess_message
-    render json: { mensagem: 'Tabelas preenchidas, a partir do XML Cid10.xml concluída' }
+    render json: { message: 'Tables populated through XML CID10.xml completed' }
   end
 
   def restriction(type)
