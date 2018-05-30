@@ -84,7 +84,7 @@ class SeedController < ApplicationController
         return Classification.second.id
       end
     else
-      return Classification.create(estate: type['tipo'], reference: type['referencia'].first).id
+      return Classification.create(estate: type['tipo'], reference: type['referencia']).id
     end
   end
 
